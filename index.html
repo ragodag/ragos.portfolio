@@ -15,7 +15,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="locked">
+
+  <!-- ===== INTRO: the first thing people see. ENTER lifts it away to the reel ===== -->
+  <section class="gate" id="gate" aria-label="Introduction">
+    <div class="gate-inner">
+      <figure class="polaroid gate-photo">
+        <img src="assets/portrait.jpg" alt="Polaroid portrait of Rago">
+      </figure>
+      <div class="gate-copy">
+        <p class="gate-tag">RGO&#8209;FILMS / LONDON</p>
+        <h1 class="gate-name">RAGO</h1>
+        <p class="gate-intro">I'm Rago, a director, DOP and editor. I make music videos for artists, plus cinematic pieces and short films, and I shoot, cut and grade most of my own work.</p>
+        <button type="button" class="gate-enter" id="enter">
+          <span>ENTER</span>
+        </button>
+      </div>
+    </div>
+    <p class="gate-foot"><span>MUSIC VIDEOS</span><span>CINEMATIC</span><span>SHORT FILMS</span></p>
+  </section>
 
   <!-- ===== HUD: small text pinned to the corners, like a camera monitor ===== -->
   <header class="hud hud-top">
@@ -47,10 +65,10 @@
 
   <!-- ===== MAIN ===== -->
   <main id="main">
-    <h1 class="logo" aria-label="Rago">
+    <h2 class="logo" aria-label="Rago">
       <span class="logo-word">RAGO</span>
       <span class="logo-sub">DIRECTOR / DOP / EDITOR</span>
-    </h1>
+    </h2>
 
     <!-- Projects are built from the list in script.js -->
     <ol class="reel" id="reel"></ol>

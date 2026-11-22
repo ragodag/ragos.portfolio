@@ -88,8 +88,8 @@ img, video, iframe { display: block; max-width: 100%; }
   letter-spacing: -.01em;
   transform: skewX(-8deg);
   text-shadow: 0 0 60px rgba(227, 23, 10, .35);
-  animation: flicker 1.6s steps(1) both;
 }
+body.entered .logo-word { animation: flicker 1.6s steps(1) .5s both; }
 .logo-sub { margin-top: 18px; color: var(--muted); letter-spacing: .3em; }
 /* one-time "projector warming up" flicker on load */
 @keyframes flicker {
@@ -270,6 +270,67 @@ body.has-cursor .cursor.ready { display: block; }
 .info-list dt { color: var(--muted); }
 .info-list a:hover { color: var(--red); }
 
+
+/* ================= INTRO GATE ================= */
+.gate {
+  position: fixed; inset: 0; z-index: 80;
+  background: var(--black);
+  display: grid; grid-template-rows: 1fr auto;
+  overflow-y: auto;
+  transition: transform 1s cubic-bezier(.7,0,.2,1);
+}
+body.entered .gate { transform: translateY(-100%); pointer-events: none; }
+.gate-inner {
+  display: grid; grid-template-columns: minmax(200px, 400px) minmax(0, 540px);
+  justify-content: center; align-content: center; align-items: center;
+  gap: clamp(36px, 7vw, 110px);
+  padding: 70px clamp(24px, 6vw, 90px) 30px;
+}
+.gate-photo img { animation: develop 2.4s ease-out both; }
+/* the Polaroid "develops" on load: starts washed out, comes up to full */
+@keyframes develop {
+  from { filter: brightness(1.9) saturate(0) contrast(.6); opacity: 0; transform: rotate(-2.5deg) translateY(14px); }
+  30%  { opacity: 1; }
+}
+.gate-tag { color: var(--muted); letter-spacing: .25em; margin-bottom: 14px; }
+.gate-name {
+  font: 400 clamp(90px, 14vw, 200px)/.8 var(--display);
+  color: var(--red); transform: skewX(-8deg); transform-origin: left;
+  text-shadow: 0 0 60px rgba(227, 23, 10, .35);
+  margin-bottom: 28px;
+}
+.gate-intro { font-size: 13px; line-height: 1.75; max-width: 46ch; margin-bottom: 36px; }
+.gate-enter {
+  position: relative; padding: 16px 44px;
+  letter-spacing: .4em; font-size: 12px;
+}
+.gate-enter span { position: relative; z-index: 1; }
+.gate-enter::before {          /* viewfinder brackets around ENTER */
+  content: ""; position: absolute; inset: 0;
+  --c: var(--red); --s: 12px; --t: 1.5px;
+  background:
+    linear-gradient(var(--c),var(--c)) top left / var(--s) var(--t),
+    linear-gradient(var(--c),var(--c)) top left / var(--t) var(--s),
+    linear-gradient(var(--c),var(--c)) top right / var(--s) var(--t),
+    linear-gradient(var(--c),var(--c)) top right / var(--t) var(--s),
+    linear-gradient(var(--c),var(--c)) bottom left / var(--s) var(--t),
+    linear-gradient(var(--c),var(--c)) bottom left / var(--t) var(--s),
+    linear-gradient(var(--c),var(--c)) bottom right / var(--s) var(--t),
+    linear-gradient(var(--c),var(--c)) bottom right / var(--t) var(--s);
+  background-repeat: no-repeat;
+  transition: inset .25s;
+}
+.gate-enter:hover { background: var(--red); color: var(--black); }
+.gate-enter:hover::before { inset: -8px; }
+.gate-foot {
+  display: flex; justify-content: space-between; gap: 12px;
+  padding: var(--edge); color: var(--muted); letter-spacing: .2em;
+}
+
+/* HUD stays hidden until you enter */
+body:not(.entered) .hud, body:not(.entered) .ticks, body:not(.entered) .views { opacity: 0; pointer-events: none; }
+.hud, .ticks, .views { transition: opacity .6s .6s; }
+
 /* ================= MOBILE ================= */
 @media (max-width: 760px) {
   .reel li, .reel li:nth-child(3n+2), .reel li:nth-child(3n) { width: 100%; }
@@ -287,6 +348,11 @@ body.has-cursor .cursor.ready { display: block; }
   .info-inner { grid-template-columns: 1fr; align-content: start; }
   .polaroid { max-width: 260px; }
   body.grid-view .reel { padding: 0 24px; }
+  .gate-inner { grid-template-columns: 1fr; justify-items: start; align-content: start; gap: 30px; padding-top: 50px; }
+  .gate-photo { max-width: 230px; }
+  .gate-name { margin-bottom: 20px; }
+  .gate-intro { margin-bottom: 28px; }
+  .gate-foot { font-size: 9px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
