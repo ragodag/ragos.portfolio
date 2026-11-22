@@ -22,10 +22,10 @@
 ================================================================ */
 const PROJECTS = [
   {
-    title: "",
-    artist: "",
+    title: "",          // ← type the video's title here
+    artist: "",         // ← and the artist
     category: "music",
-    youtube: "",
+    youtube: "https://www.youtube.com/watch?v=ZV2RTrbZaJE",
     vimeo: "",
     thumb: "",
     preview: "",
@@ -251,7 +251,7 @@ function closeAll() {
   if (project.hidden && info.hidden) return;
   project.hidden = info.hidden = true;
   $("#pMedia").innerHTML = "";               // stops any playing video
-  document.body.classList.remove("locked");
+  if (document.body.classList.contains("entered")) document.body.classList.remove("locked");
   lastFocus?.focus?.();
 }
 document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", closeAll));
@@ -260,7 +260,39 @@ addEventListener("keydown", e => {
   if (!project.hidden && e.key === "ArrowRight") step(1);
   if (!project.hidden && e.key === "ArrowLeft") step(-1);
 });
-$("[data-home]").addEventListener("click", e => { e.preventDefault(); closeAll(); scrollTo({ top: 0 }); });
+/* ---------- intro gate ---------- */
+const gate = $("#gate");
+function enter() {
+  document.body.classList.add("entered");
+  document.body.classList.remove("locked");
+  gate.setAttribute("aria-hidden", "true");
+  gate.inert = true;
+  scrollTo({ top: 0 });
+  setTimeout(refreshCount, 50);
+}
+function showGate() {
+  closeAll();
+  gate.inert = false;
+  gate.removeAttribute("aria-hidden");
+  document.body.classList.remove("entered");
+  document.body.classList.add("locked");
+  $("#enter").focus();
+}
+$("#enter").addEventListener("click", enter);
+// scrolling down or pressing Enter/arrow on the intro also enters
+gate.addEventListener("wheel", e => { if (e.deltaY > 20) enter(); }, { passive: true });
+addEventListener("keydown", e => {
+  if (!document.body.classList.contains("entered") && ["ArrowDown", "PageDown", " "].includes(e.key) && e.target === document.body) { e.preventDefault(); enter(); }
+});
+let touchY = null;
+gate.addEventListener("touchstart", e => touchY = e.touches[0].clientY, { passive: true });
+gate.addEventListener("touchend", e => {
+  if (touchY !== null && gate.scrollTop + gate.clientHeight >= gate.scrollHeight - 2 && touchY - e.changedTouches[0].clientY > 60) enter();
+  touchY = null;
+});
+
+// "RGO-FILMS" in the corner brings the intro back
+$("[data-home]").addEventListener("click", e => { e.preventDefault(); showGate(); });
 
 /* ---------- crosshair cursor (mouse only) ---------- */
 if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
