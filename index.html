@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAGO — Director</title>
+  <meta name="description" content="Music videos, cinematic films and short films directed by Rago.">
+  <meta property="og:title" content="RAGO — Director">
+  <meta property="og:description" content="Music videos, cinematic films and short films.">
+  <meta property="og:image" content="assets/share.jpg">
+  <meta name="theme-color" content="#000000">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== HUD: small text pinned to the corners, like a camera monitor ===== -->
+  <header class="hud hud-top">
+    <a href="#" class="hud-mark" data-home>RGO&#8209;FILMS</a>
+    <nav>
+      <button type="button" data-open-info>INFO</button>
+      <a href="mailto:hello@rago.com">CONTACT</a>
+    </nav>
+  </header>
+
+  <div class="hud hud-bottom" aria-live="polite">
+    <div class="cats" role="group" aria-label="Filter projects">
+      <button type="button" class="is-on" data-filter="all">ALL</button>
+      <button type="button" data-filter="music">MUSIC VIDEO</button>
+      <button type="button" data-filter="cinematic">CINEMATIC</button>
+      <button type="button" data-filter="short">SHORT FILM</button>
+    </div>
+    <span class="now-title" id="nowTitle"></span>
+    <span class="now-credit" id="nowCredit"></span>
+    <span class="counter"><b id="nowIndex">01</b> &ndash; <span id="total">00</span></span>
+  </div>
+
+  <!-- Left: scroll position ticks. Right: layout switch -->
+  <div class="ticks" id="ticks" aria-hidden="true"></div>
+  <div class="views" role="group" aria-label="Layout">
+    <button type="button" class="is-on" data-view="reel" aria-label="Reel view"></button>
+    <button type="button" data-view="grid" aria-label="Grid view"></button>
+  </div>
+
+  <!-- ===== MAIN ===== -->
+  <main id="main">
+    <h1 class="logo" aria-label="Rago">
+      <span class="logo-word">RAGO</span>
+      <span class="logo-sub">DIRECTOR / DOP / EDITOR</span>
+    </h1>
+
+    <!-- Projects are built from the list in script.js -->
+    <ol class="reel" id="reel"></ol>
+
+    <p class="end">END OF REEL</p>
+  </main>
+
+  <!-- ===== PROJECT PAGE (opens over everything) ===== -->
+  <div class="project" id="project" role="dialog" aria-modal="true" aria-labelledby="pTitle" hidden>
+    <button type="button" class="p-close" data-close>CLOSE</button>
+    <div class="p-scroll">
+      <div class="p-frame vf">
+        <div class="p-media" id="pMedia"></div>
+        <button type="button" class="p-play" id="pPlay">PLAY</button>
+      </div>
+      <div class="p-head">
+        <h2 id="pTitle"></h2>
+        <p id="pArtist"></p>
+      </div>
+      <div class="p-info">
+        <span class="p-label">CREDIT</span>
+        <dl id="pCredits"></dl>
+        <div class="p-when"><span id="pDate"></span><span id="pPlace"></span></div>
+      </div>
+      <div class="p-nav">
+        <button type="button" id="pPrev">PREV</button>
+        <button type="button" id="pNext">NEXT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== INFO / ABOUT / CONTACT ===== -->
+  <div class="info" id="info" role="dialog" aria-modal="true" aria-label="About Rago" hidden>
+    <button type="button" class="p-close" data-close>CLOSE</button>
+    <div class="info-inner">
+      <figure class="polaroid">
+        <img src="assets/portrait.jpg" alt="Polaroid portrait of Rago">
+      </figure>
+      <div class="info-copy">
+        <h2>RAGO</h2>
+        <p>Director, DOP and editor. I make music videos for artists, plus cinematic pieces and short films. I shoot, cut and grade most of my own work.</p>
+        <p>Open to music videos, visuals and collaborations.</p>
+        <dl class="info-list">
+          <dt>BASED</dt><dd>London, UK</dd>
+          <dt>EMAIL</dt><dd><a href="mailto:hello@rago.com">hello@rago.com</a></dd>
+          <dt>INSTAGRAM</dt><dd><a href="https://instagram.com/yourhandle" target="_blank" rel="noopener">@yourhandle</a></dd>
+          <dt>YOUTUBE</dt><dd><a href="https://youtube.com/@yourhandle" target="_blank" rel="noopener">@yourhandle</a></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
